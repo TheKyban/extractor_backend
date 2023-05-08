@@ -1,5 +1,6 @@
 import cheerio from 'cheerio'
 import unfluff from 'unfluff'
+import axios from 'axios'
 
 
 /**
@@ -21,14 +22,13 @@ export const Simple_News = async (req, res) => {
          */
 
 
-        const response = await fetch(URL)
-        const html = await response.text()
+        const response = await axios(URL)
 
         /**
          * Extracting content from html and sending response
          */
 
-        res.json(Extracting_And_Filtering_Content(html))
+        res.json(Extracting_And_Filtering_Content(response.data))
 
     } catch (error) {
         console.log(error)
@@ -50,28 +50,26 @@ export const Google_News = async (req, res) => {
          * Fetching url to get html
          */
 
-        const response = await fetch(URL)
-        const html = await response.text()
+        const response = await axios(URL)
 
         /**
          * Extracting news link inside google news link
          */
 
-        const $ = cheerio.load(html)
+        const $ = cheerio.load(response.data)
         const NewURL = $('a').text()
 
         /**
          * Fetching again to get news content
          */
 
-        const response_2 = await fetch(NewURL)
-        const html_2 = await response_2.text()
+        const response_2 = await axios(NewURL)
 
         /**
          * Extracting content from html and sending response
          */
 
-        res.json(Extracting_And_Filtering_Content(html_2))
+        res.json(Extracting_And_Filtering_Content(response_2.data))
 
     } catch (error) {
         console.log(error)
@@ -117,7 +115,7 @@ const Extracting_And_Filtering_Content = (html) => {
 
     const Extracted_content = {
         title: title,
-        author: author,
+        author: !author && null,
         date: date,
         publisher: publisher,
         text: splited_text
