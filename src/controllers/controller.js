@@ -129,7 +129,7 @@ const Extracting_And_Filtering_Content = (html) => {
 
     const Extracted_content = {
         title: title,
-        author: !author && null,
+        author: author?author:null,
         date: date,
         publisher: publisher,
         text: splited_text
