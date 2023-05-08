@@ -28,10 +28,17 @@ export const Simple_News = async (req, res) => {
          * Extracting content from html and sending response
          */
 
-        res.json(Extracting_And_Filtering_Content(response.data))
+        res.json({
+            success:true,
+            data:Extracting_And_Filtering_Content(response.data)
+        })
 
     } catch (error) {
         console.log(error)
+        res.json({
+            success: false,
+            data: "Some Error"
+        })
     }
 
 }
@@ -69,10 +76,17 @@ export const Google_News = async (req, res) => {
          * Extracting content from html and sending response
          */
 
-        res.json(Extracting_And_Filtering_Content(response_2.data))
+        res.json({
+            success: true,
+            data: Extracting_And_Filtering_Content(response_2.data)
+        })
 
     } catch (error) {
         console.log(error)
+        res.json({
+            success: false,
+            data: "Some Error"
+        })
     }
 }
 
